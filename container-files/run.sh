@@ -46,9 +46,10 @@ function start_driveclient() {
   sleep $WAIT_TIME && echo
   
   # In case of these strings were not found, the script will exit (set -e)
-  if [[ $(grep -i "Could not register the agent" $LOG_FILE) != "" ]]; then echo "Error 1: Could not register the agent. Check your account id, username and/or api key (password)." && exit 1; fi
-  if [[ $(grep -i "Successfully authenticated the agent" $LOG_FILE) == "" ]]; then echo "Error 2: Could not authenticate the agent." && exit 1; fi
-  if [[ $(grep -i "Configuration parsed and loaded" $LOG_FILE) == "" ]]; then echo "Error 3: Could not parse the config file." && exit 1; fi
+  if [[ $(grep -i "HTTP connection error 400" $LOG_FILE) != "" ]]; then echo "Error: connection error. Check the routing/connection. Are you sure you run this container with --net=host option?" && exit 1; fi
+  if [[ $(grep -i "Could not register the agent" $LOG_FILE) != "" ]]; then echo "Error: Could not register the agent. Check your account id, username and/or api key (password)." && exit 1; fi
+  if [[ $(grep -i "Successfully authenticated the agent" $LOG_FILE) == "" ]]; then echo "Error: Could not authenticate the agent." && exit 1; fi
+  if [[ $(grep -i "Configuration parsed and loaded" $LOG_FILE) == "" ]]; then echo "Error: Could not parse the config file." && exit 1; fi
 }
 
 
