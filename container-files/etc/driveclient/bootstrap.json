@@ -1,0 +1,8 @@
+{
+    "ApiHostName": "API_HOST",
+    "Password": "API_KEY",
+    "AccountId": "ACCOUNT_ID",
+    "Username": "USERNAME",
+    "Https" : true,
+    "IsRegistered": false
+}

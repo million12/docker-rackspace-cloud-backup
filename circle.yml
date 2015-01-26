@@ -1,0 +1,13 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker pull centos:latest
+
+# Run tests
+test:
+  override:
+    - docker build --tag=million12/rackspace-cloud-backup .
+    - docker run -d million12/rackspace-cloud-backup
