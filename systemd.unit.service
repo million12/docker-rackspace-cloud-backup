@@ -1,0 +1,28 @@
+#cloud-config
+
+coreos:
+  units:
+    - name: driveclient.service
+      command: start
+      content: |
+        [Unit]
+        Description=Driveclient - Rackspace cloud backup agent
+        After=docker.service
+
+        [Service]
+        TimeoutStartSec=0
+        ExecStartPre=-/usr/bin/docker kill driveclient
+        ExecStartPre=-/usr/bin/docker rm -f driveclient
+        ExecStart=/usr/bin/docker run \
+          --name=driveclient \
+          --net=host \
+          -v /:/mnt/host \
+          --volumes-from=some-other-container \
+          --env="API_HOST=lon.backup.api.rackspacecloud.com" \
+          --env="API_KEY=32lengthApiKeyFromYourRaxAccount" \
+          --env="ACCOUNT_ID=01234567" \
+          --env="USERNAME=account-username" \
+          million12/rackspace-cloud-backup
+
+        [Install]
+        WantedBy=multi-user.target
